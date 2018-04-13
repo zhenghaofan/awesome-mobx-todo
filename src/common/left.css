@@ -1,0 +1,15 @@
+.left-container {
+  height: 100%;
+  padding-top: 200px;
+  border-right: 1px solid blue;
+}
+
+.todo-container {
+  height: 100%;
+  padding-top: 50px;
+}
+
+.todo-input {
+  width: 200px;
+  margin-right: 10px;
+}
