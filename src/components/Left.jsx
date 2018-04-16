@@ -9,8 +9,8 @@ import '../common/left.css'
 
 const dateFormat = 'YYYY/MM/DD'
 
-@inject('todos')
-@inject('date')
+@inject('todoStore')
+@inject('dateStore')
 @observer
 export default class Left extends React.Component {
   constructor(props) {
@@ -20,20 +20,26 @@ export default class Left extends React.Component {
     // }
   }
 
-  addTodo(e) {
+  addTodo = () => {
     let todo = ReactDOM.findDOMNode(this.refs.newInput).value.trim();
     if (todo) {
-      this.props.todos.addTodo(todo);
+      this.props.todoStore.addTodo(moment(this.props.dateStore.newDate).format('YYYY/MM/DD'), todo);
       ReactDOM.findDOMNode(this.refs.newInput).value = '';
     }
   }
 
+  checkEnter = (e) => {
+    if(e.key === 'Enter') {
+      this.addTodo();
+    }
+  };
+
   onDateChange(_date) {
-    this.props.date.setDay(_date)
+    this.props.dateStore.setDay(_date)
   }
 
   render() {
-    const dateStore = this.props.date
+    let dateStore = this.props.dateStore
     return (
       <div className="left-container">
         <Button onClick={dateStore.backDay.bind(dateStore)}>
@@ -44,8 +50,8 @@ export default class Left extends React.Component {
           <Icon type="right"/>
         </Button>
         <div className="todo-container">
-          <Input className="todo-input" ref="newInput" placeholder="输入你要做的事情" autoFocus={true} />
-          <Button type="primary" onClick={this.addTodo}>干吧</Button>
+          <Input className="todo-input" ref="newInput" placeholder="输入你要做的事情" autoFocus={true} onKeyPress={this.checkEnter}/>
+          <Button type="primary" onClick={this.addTodo.bind(this)}>干吧</Button>
         </div>
       </div>
     )
