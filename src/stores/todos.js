@@ -33,13 +33,13 @@ class todoStore{
     this.todoList[todolistIndex].todos.splice(todoIndex, 1)
   }
 
-  @action completeTodo(date, text) {
+  @action completeTodo(date, text, status) {
     let todolistIndex = this.todoList.map((item) => item.date).indexOf(date)
     if (todolistIndex < 0) return;
     let todoIndex = this.todoList[todolistIndex].todos.map(item => item.content).indexOf(text);
     if(todoIndex < 0) return;
 
-    this.todoList[todolistIndex].todos[todoIndex].status = 2;
+    this.todoList[todolistIndex].todos[todoIndex].status = status;
   }
 }
 export default new todoStore()

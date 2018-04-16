@@ -10,9 +10,13 @@ const TabPane = Tabs.TabPane
 @inject('dateStore')
 @observer
 export default class Right extends React.Component {
-  @observable status = 1;
+  @observable status
   constructor(props) {
     super(props)
+  }
+
+  componentDidMount() {
+    this.status = 1
   }
 
   @computed get dateString() {
@@ -29,20 +33,22 @@ export default class Right extends React.Component {
   }
 
   @computed get targetTodos() {
-    return this.allTodos.filter(item => item.status == this.status)
+    return this.allTodos.filter(item => item.status === this.status)
   }
 
   getTodos(status) {
-    this.status = status;
+    this.status = parseInt(status, 10);
   }
+
   deleteTodo(item) {
     this.props.todoStore.deleteTodo(this.dateString, item)
   }
-  completeTodo(item) {
-    this.props.todoStore.completeTodo(this.dateString, item)
+
+  completeTodo(item, status) {
+    this.props.todoStore.completeTodo(this.dateString, item, status)
   }
+
   render() {
-    // console.log(this.targetTodos);
     return (
       <div className="right-container">
         <h3>{this.dateString} Todolist:</h3>
@@ -54,7 +60,7 @@ export default class Right extends React.Component {
                       return (
                         <div className="tags-container" key={item.content}>
                           {index+1}.<Tag closable onClose={this.deleteTodo.bind(this, item.content)}><span>{item.content}</span></Tag>
-                        <Button type="primary" size="small" className="f-r" onClick={this.completeTodo.bind(this, item.content)}>mark as complete</Button>
+                        <Button type="primary" size="small" className="f-r" onClick={this.completeTodo.bind(this, item.content, 2)}>mark as complete</Button>
                         </div>
                       )
                     }) : <div className="no-list">暂无todo</div>
@@ -68,6 +74,21 @@ export default class Right extends React.Component {
                       return (
                         <div className="tags-container" key={item.content}>
                           {index+1}.<Tag closable onClose={this.deleteTodo.bind(this, item.content)}><span>{item.content}</span></Tag>
+                        <Button type="primary" size="small" className="f-r" onClick={this.completeTodo.bind(this, item.content, 1)}>mark as non-complete</Button>
+                        </div>
+                      )
+                    }) : <div className="no-list">暂无todo</div>
+                  }
+            </List>
+          </TabPane>
+          <TabPane tab="全部" key="">
+            <List>
+                  {
+                    this.allTodos.length > 0 ? this.allTodos.map((item, index) => {
+                      return (
+                        <div className="tags-container" key={item.content}>
+                          {index+1}.<Tag closable onClose={this.deleteTodo.bind(this, item.content)}><span>{item.content}</span></Tag>
+                        {item.status === 1 ? (<Tag color="#f50" className="f-r">non-complete</Tag>) : (<Tag color="#87d068" className="f-r">complete</Tag>)}
                         </div>
                       )
                     }) : <div className="no-list">暂无todo</div>
