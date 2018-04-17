@@ -2,7 +2,7 @@
   padding-top: 100px;
 }
 
-.tags-container {
+.single-todo {
   text-align: left;
   margin-left: 20px;
   margin-bottom: 20px
@@ -10,4 +10,13 @@
 
 .f-r {
   float: right;
+  margin-right: 20px;
+}
+
+.todo-show {
+  opacity: 1
+}
+
+.todo-hide {
+  opacity: 0
 }

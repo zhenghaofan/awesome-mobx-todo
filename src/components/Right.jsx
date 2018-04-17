@@ -4,6 +4,7 @@ import moment from 'moment'
 import '../common/right.css'
 import {observable, computed} from 'mobx'
 import {observer, inject} from 'mobx-react'
+import SingleTodo from './SingleTodo'
 
 const TabPane = Tabs.TabPane
 @inject('todoStore')
@@ -58,9 +59,15 @@ export default class Right extends React.Component {
                   {
                     this.targetTodos.length > 0 ? this.targetTodos.map((item, index) => {
                       return (
-                        <div className="tags-container" key={item.content}>
-                          {index+1}.<Tag closable onClose={this.deleteTodo.bind(this, item.content)}><span>{item.content}</span></Tag>
-                        <Button type="primary" size="small" className="f-r" onClick={this.completeTodo.bind(this, item.content, 2)}>mark as complete</Button>
+                        <div className="single-todo" key={item.content}>
+                          <SingleTodo
+                            needFly={true}
+                            index={index+1}
+                            deleteTodo={this.deleteTodo.bind(this, item.content)}
+                            completeTodo={this.completeTodo.bind(this, item.content, 2)}
+                            content={item.content}
+                            buttonText="mark as complete">
+                          </SingleTodo>
                         </div>
                       )
                     }) : <div className="no-list">暂无todo</div>
@@ -72,9 +79,15 @@ export default class Right extends React.Component {
                   {
                     this.targetTodos.length > 0 ? this.targetTodos.map((item, index) => {
                       return (
-                        <div className="tags-container" key={item.content}>
-                          {index+1}.<Tag closable onClose={this.deleteTodo.bind(this, item.content)}><span>{item.content}</span></Tag>
-                        <Button type="primary" size="small" className="f-r" onClick={this.completeTodo.bind(this, item.content, 1)}>mark as non-complete</Button>
+                        <div className="single-todo" key={item.content}>
+                          <SingleTodo
+                            needFly={false}
+                            index={index+1}
+                            deleteTodo={this.deleteTodo.bind(this, item.content)}
+                            completeTodo={this.completeTodo.bind(this, item.content, 1)}
+                            content={item.content}
+                            buttonText="mark as non-complete">
+                          </SingleTodo>
                         </div>
                       )
                     }) : <div className="no-list">暂无todo</div>
@@ -86,7 +99,7 @@ export default class Right extends React.Component {
                   {
                     this.allTodos.length > 0 ? this.allTodos.map((item, index) => {
                       return (
-                        <div className="tags-container" key={item.content}>
+                        <div className="single-todo" key={item.content}>
                           {index+1}.<Tag closable onClose={this.deleteTodo.bind(this, item.content)}><span>{item.content}</span></Tag>
                         {item.status === 1 ? (<Tag color="#f50" className="f-r">non-complete</Tag>) : (<Tag color="#87d068" className="f-r">complete</Tag>)}
                         </div>
