@@ -1,4 +1,5 @@
 import {observable, action} from 'mobx'
+import store from './index'
 
 class Todo {
   @observable status
@@ -13,6 +14,7 @@ class todoStore{
 
   @action addTodo(date, text) {
     let index = this.todoList.map((item) => item.date).indexOf(date)
+    store.flyStore.needFly = true
     if (index !== -1) {
       if (this.todoList[index].todos.map(item => item.content).indexOf(text) !== -1) return;
       this.todoList[index].todos.push(new Todo(text, 1))

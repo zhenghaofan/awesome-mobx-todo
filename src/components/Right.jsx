@@ -61,7 +61,6 @@ export default class Right extends React.Component {
                       return (
                         <div className="single-todo" key={item.content}>
                           <SingleTodo
-                            needFly={true}
                             index={index+1}
                             deleteTodo={this.deleteTodo.bind(this, item.content)}
                             completeTodo={this.completeTodo.bind(this, item.content, 2)}
@@ -81,7 +80,6 @@ export default class Right extends React.Component {
                       return (
                         <div className="single-todo" key={item.content}>
                           <SingleTodo
-                            needFly={false}
                             index={index+1}
                             deleteTodo={this.deleteTodo.bind(this, item.content)}
                             completeTodo={this.completeTodo.bind(this, item.content, 1)}

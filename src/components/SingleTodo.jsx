@@ -22,11 +22,12 @@ export default class SingleTodo extends React.Component {
     this.setState({
       flyComplete: true
     })
+    this.props.flyStore.resetNeedFly()
     this.props.flyStore.removeEl()
   }
 
   componentDidMount() {
-    if (this.props.needFly) {
+    if (this.props.flyStore.needFly) {
       this.fly()
     } else {
       this.setState({
@@ -45,6 +46,10 @@ export default class SingleTodo extends React.Component {
     this.parabola = new Parabola(this.props.flyStore.originEl, ReactDOM.findDOMNode(this.targetTag), this.options)
     this.parabola.run()
   }
+
+  // componentWillUnmount() {
+  //   this.parabola && this.parabola.stop()
+  // }
 
   render() {
     return (
