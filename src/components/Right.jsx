@@ -85,7 +85,7 @@ export default class Right extends React.Component {
                             deleteTodo={this.deleteTodo.bind(this, item.content)}
                             completeTodo={this.completeTodo.bind(this, item.content, 'non_complete')}
                             content={item.content}
-                            buttonText="mark as non_complete">
+                            buttonText="mark as non-complete">
                           </SingleTodo>
                         </div>
                       )
@@ -100,7 +100,7 @@ export default class Right extends React.Component {
                       return (
                         <div className="single-todo" key={item.content}>
                           {index+1}.<Tag closable onClose={this.deleteTodo.bind(this, item.content)}><span>{item.content}</span></Tag>
-                        {item.status === 'non_complete' ? (<Tag color="#f50" className="f-r">non_complete</Tag>) : (<Tag color="#87d068" className="f-r">complete</Tag>)}
+                        {item.status === 'non_complete' ? (<Tag color="#f50" className="f-r">non-complete</Tag>) : (<Tag color="#87d068" className="f-r">complete</Tag>)}
                         </div>
                       )
                     }) : <div className="no-list">暂无todo</div>

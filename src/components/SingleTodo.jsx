@@ -38,6 +38,7 @@ export default class SingleTodo extends React.Component {
 
   fly() {
     this.parabola = new Parabola(this.props.flyStore.originEl, ReactDOM.findDOMNode(this.targetTag), this.options)
+    // console.log(ReactDOM.findDOMNode(this.targetTag));
     this.parabola.run()
   }
 
