@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
 import {DatePicker} from 'antd'
-import {Button, Input, Icon, Tag} from 'antd'
+import {Button, Input, Icon } from 'antd'
 import moment from 'moment'
 import { observer, inject } from 'mobx-react'
-import Parabola from '../third-party/parabola'
 
 import '../common/left.css'
 
@@ -13,6 +12,7 @@ const dateFormat = 'YYYY/MM/DD'
 @inject('todoStore')
 @inject('dateStore')
 @inject('flyStore')
+@inject('tabsKeyStore')
 @observer
 export default class Left extends React.Component {
   constructor(props) {
@@ -20,8 +20,6 @@ export default class Left extends React.Component {
     this.state = {
       todoText: ''
     }
-
-    // this.tagEl = null
   }
 
   handleChange = (e) => {
@@ -32,17 +30,11 @@ export default class Left extends React.Component {
     let todo = ReactDOM.findDOMNode(this.refs.newInput).value.trim();
     if (todo) {
       this.createTagElement();
-      // this.fly();
+      this.props.tabsKeyStore.activeKey = 'non_complete';
       this.props.todoStore.addTodo(moment(this.props.dateStore.newDate).format('YYYY/MM/DD'), todo);
       ReactDOM.findDOMNode(this.refs.newInput).value = '';
     }
   }
-
-  // checkEnter = (e) => {
-  //   if(e.key === 'Enter') {
-  //     this.addTodo();
-  //   }
-  // };
 
   onDateChange(_date) {
     this.props.dateStore.setDay(_date)

@@ -5,9 +5,9 @@
 }
 
 .todo-container {
-  height: 100%;
-  padding-top: 50px;
   position: relative;
+  width: 280px;
+  margin: 50px auto 0;
 }
 
 .todo-input {
@@ -17,7 +17,6 @@
 
 .left-tag {
   position: absolute;
-  left: 30%;
-  top: 30%;
-  opacity: 1;
+  left: 12px;
+  top: 5px;
 }

@@ -5,7 +5,7 @@ class Todo {
   @observable status
   constructor(content, status) {
     this.content = content
-    this.status = status || 1
+    this.status = status || 'non_complete'
   }
 }
 
@@ -14,14 +14,15 @@ class todoStore{
 
   @action addTodo(date, text) {
     let index = this.todoList.map((item) => item.date).indexOf(date)
+    // this.status = 'non_complete'
     store.flyStore.needFly = true
     if (index !== -1) {
       if (this.todoList[index].todos.map(item => item.content).indexOf(text) !== -1) return;
-      this.todoList[index].todos.push(new Todo(text, 1))
+      this.todoList[index].todos.push(new Todo(text, 'non_complete'))
     } else {
       this.todoList.push({
         date: date,
-        todos: [new Todo(text, 1)]
+        todos: [new Todo(text, 'non_complete')]
       })
     }
   }

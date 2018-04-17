@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, Tag, Tabs, Button } from 'antd'
+import { List, Tag, Tabs } from 'antd'
 import moment from 'moment'
 import '../common/right.css'
 import {observable, computed} from 'mobx'
@@ -9,15 +9,16 @@ import SingleTodo from './SingleTodo'
 const TabPane = Tabs.TabPane
 @inject('todoStore')
 @inject('dateStore')
+@inject('tabsKeyStore')
 @observer
 export default class Right extends React.Component {
-  @observable status
+  // @observable activeKey
   constructor(props) {
     super(props)
   }
 
   componentDidMount() {
-    this.status = 1
+    console.log(this.props.tabsKeyStore.activeKey);
   }
 
   @computed get dateString() {
@@ -34,11 +35,11 @@ export default class Right extends React.Component {
   }
 
   @computed get targetTodos() {
-    return this.allTodos.filter(item => item.status === this.status)
+    return this.allTodos.filter(item => item.status === this.props.tabsKeyStore.activeKey)
   }
 
   getTodos(status) {
-    this.status = parseInt(status, 10);
+    this.props.tabsKeyStore.setActiveKey(status);
   }
 
   deleteTodo(item) {
@@ -53,8 +54,8 @@ export default class Right extends React.Component {
     return (
       <div className="right-container">
         <h3>{this.dateString} Todolist:</h3>
-          <Tabs defaultActiveKey="1" onChange={this.getTodos.bind(this)}>
-          <TabPane tab="要干" key="1">
+          <Tabs defaultActiveKey="non_complete" ref="tabs" activeKey={this.props.tabsKeyStore.activeKey} onChange={this.getTodos.bind(this)}>
+          <TabPane tab="要干" key="non_complete">
             <List>
                   {
                     this.targetTodos.length > 0 ? this.targetTodos.map((item, index) => {
@@ -63,7 +64,7 @@ export default class Right extends React.Component {
                           <SingleTodo
                             index={index+1}
                             deleteTodo={this.deleteTodo.bind(this, item.content)}
-                            completeTodo={this.completeTodo.bind(this, item.content, 2)}
+                            completeTodo={this.completeTodo.bind(this, item.content, 'complete')}
                             content={item.content}
                             buttonText="mark as complete">
                           </SingleTodo>
@@ -73,7 +74,7 @@ export default class Right extends React.Component {
                   }
             </List>
           </TabPane>
-          <TabPane tab="干完了" key="2">
+          <TabPane tab="干完了" key="complete">
             <List>
                   {
                     this.targetTodos.length > 0 ? this.targetTodos.map((item, index) => {
@@ -82,9 +83,9 @@ export default class Right extends React.Component {
                           <SingleTodo
                             index={index+1}
                             deleteTodo={this.deleteTodo.bind(this, item.content)}
-                            completeTodo={this.completeTodo.bind(this, item.content, 1)}
+                            completeTodo={this.completeTodo.bind(this, item.content, 'non_complete')}
                             content={item.content}
-                            buttonText="mark as non-complete">
+                            buttonText="mark as non_complete">
                           </SingleTodo>
                         </div>
                       )
@@ -99,7 +100,7 @@ export default class Right extends React.Component {
                       return (
                         <div className="single-todo" key={item.content}>
                           {index+1}.<Tag closable onClose={this.deleteTodo.bind(this, item.content)}><span>{item.content}</span></Tag>
-                        {item.status === 1 ? (<Tag color="#f50" className="f-r">non-complete</Tag>) : (<Tag color="#87d068" className="f-r">complete</Tag>)}
+                        {item.status === 'non_complete' ? (<Tag color="#f50" className="f-r">non_complete</Tag>) : (<Tag color="#87d068" className="f-r">complete</Tag>)}
                         </div>
                       )
                     }) : <div className="no-list">暂无todo</div>

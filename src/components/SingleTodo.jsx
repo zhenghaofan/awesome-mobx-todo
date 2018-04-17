@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import {Tag, Button} from 'antd'
 import Parabola from '../third-party/parabola'
-import { observer, inject } from 'mobx-react'
+import { inject } from 'mobx-react'
 
 @inject('flyStore')
 export default class SingleTodo extends React.Component {
@@ -35,12 +35,6 @@ export default class SingleTodo extends React.Component {
       })
     }
   }
-
-  // componentWillUnmount() {
-  //   this.setState({
-  //     flyComplete: false
-  //   })
-  // }
 
   fly() {
     this.parabola = new Parabola(this.props.flyStore.originEl, ReactDOM.findDOMNode(this.targetTag), this.options)
